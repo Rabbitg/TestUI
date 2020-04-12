@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "631331962588",
+    "firebase_url": "https://uigithubtest.firebaseio.com",
+    "project_id": "uigithubtest",
+    "storage_bucket": "uigithubtest.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:631331962588:android:878435e78dcb8cf5467e19",
+        "android_client_info": {
+          "package_name": "com.hour.uigithub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "631331962588-1982v1l5pvp2rkkbftfdcre7ou11k98i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hour.uigithub",
+            "certificate_hash": "45a4833b0a177e5a63655c6d8b6f1cbafdd1dafc"
+          }
+        },
+        {
+          "client_id": "631331962588-md2vcth4iargltlpfbgrf9t56n386epm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzxCcMr1VwspFOQETxf6GkjzxJkN5xo-k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "631331962588-md2vcth4iargltlpfbgrf9t56n386epm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
