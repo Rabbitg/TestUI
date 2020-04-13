@@ -1,16 +1,15 @@
 package com.hour.uigithub
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.goal_dialog.*
 import kotlinx.android.synthetic.main.goal_dialog.view.*
-import kotlinx.android.synthetic.main.goal_dialog.view.dialogTitleEt
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,14 +36,21 @@ class MainActivity : AppCompatActivity() {
             addItemDialog()
         }
 
-
-        val goalRef = database.getReference("Goal")
-
+        val goalRef = database.getReference("/Goal")
         goalRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val value = dataSnapshot?.value
-                title_mainTextView.text = "$value"
-                description_mainTextView.text = "$value"
+
+                dataSnapshot.children.forEach {
+                    //"it" is the snapshot
+                    val key: String = it.key.toString()
+                    val value : Any? = dataSnapshot.child(key).child("title").value.toString()
+                    title_mainTextView.text = value.toString()
+                }
+
+              // val value = dataSnapshot.child("title").value
+
+
+
             }
             override fun onCancelled(databaseError: DatabaseError) {
                 // Getting Post failed, log a message
@@ -94,6 +100,7 @@ class MainActivity : AppCompatActivity() {
                 // Goal 클래스에 제목, 목표 설명을 넘겨주어서 Database 에 전달
                 goal.title = title_mainTextView.text.toString()
                 goal.description = description_mainTextView.text.toString()
+                goal.writeTime = ServerValue.TIMESTAMP
                 newRef.setValue(goal)
                 // 다이얼로그 사라지게 하는 것
                 mAlertDialog.dismiss()
