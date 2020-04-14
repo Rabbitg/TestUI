@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">UIgithub</string>
+    <string name="action_settings">Settings</string>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>
