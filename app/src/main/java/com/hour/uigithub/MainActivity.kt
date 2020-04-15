@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -55,7 +57,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var timer: CountDownTimer
     private var timerLengthSeconds : Long = 0L
     private var timerState = TimerState.Stopped
-    private var secondsRemaining = 0L
+    private var secondsRemaining : Long = 0L
 
     // Firebase database 접근하기 위한 것
     lateinit var mDatabase: DatabaseReference
@@ -131,7 +133,6 @@ class MainActivity : AppCompatActivity() {
         removeAlarm(this)
         NotificationUtil.hideTimerNotification(this)
 
-        //TODO: remove background timer, hide notification (백그라운드 타이머 제거하고 노티피케이션 숨긴다)
     }
 
 
@@ -299,6 +300,26 @@ class MainActivity : AppCompatActivity() {
             mAlertDialog.dismiss()
         }
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu_timer, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        return when (item.itemId) {
+            R.id.action_settings -> {
+                val intent = Intent(this, SettingsActivity::class.java)
+                startActivity(intent)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
 
