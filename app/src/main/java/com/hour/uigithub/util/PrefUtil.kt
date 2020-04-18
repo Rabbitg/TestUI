@@ -2,7 +2,7 @@ package com.hour.uigithub.util
 
 import android.content.Context
 import android.preference.PreferenceManager
-import com.hour.uigithub.MainActivity
+import com.hour.uigithub.goalMain.TimerActivity
 
 class PrefUtil {
     companion object {
@@ -29,13 +29,13 @@ class PrefUtil {
 
         private const val TIMER_STATE_ID = "com.resocoder.timer.timer_state"
 
-        fun getTimerState(context: Context): MainActivity.TimerState{
+        fun getTimerState(context: Context): TimerActivity.TimerState{
             val preferences = PreferenceManager.getDefaultSharedPreferences(context)
             val ordinal = preferences.getInt(TIMER_STATE_ID, 0)
-            return MainActivity.TimerState.values()[ordinal]
+            return TimerActivity.TimerState.values()[ordinal]
         }
 
-        fun setTimerState(state: MainActivity.TimerState, context: Context){
+        fun setTimerState(state: TimerActivity.TimerState, context: Context){
             val editor = PreferenceManager.getDefaultSharedPreferences(context).edit()
             val ordinal = state.ordinal
             editor.putInt(TIMER_STATE_ID, ordinal)

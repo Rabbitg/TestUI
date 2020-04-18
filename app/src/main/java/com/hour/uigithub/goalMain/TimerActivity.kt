@@ -1,4 +1,4 @@
-package com.hour.uigithub
+package com.hour.uigithub.goalMain
 
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -14,15 +14,17 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.*
+import com.hour.uigithub.R
+import com.hour.uigithub.database.Goal
 import com.hour.uigithub.util.NotificationUtil
 import com.hour.uigithub.util.PrefUtil
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_timer.*
 import kotlinx.android.synthetic.main.content_timer.*
 import kotlinx.android.synthetic.main.goal_dialog.view.*
 import java.util.*
 
 
-class MainActivity : AppCompatActivity() {
+class TimerActivity : AppCompatActivity(){
 
 
     companion object{
@@ -56,7 +58,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var timer: CountDownTimer
     private var timerLengthSeconds : Long = 0L
-    private var timerState = TimerState.Stopped
+    private var timerState =
+        TimerState.Stopped
     private var secondsRemaining : Long = 0L
 
     // Firebase database 접근하기 위한 것
@@ -66,19 +69,21 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_timer)
         supportActionBar?.setIcon(R.drawable.ic_timer)
         supportActionBar?.title = "      Timer"
         // 카운트다운
         fab_start.setOnClickListener { v ->
             startTimer()
-            timerState = TimerState.Running
+            timerState =
+                TimerState.Running
             updateButtons()
         }
 
         fab_pause.setOnClickListener { v->
             timer.cancel()
-            timerState = TimerState.Paused
+            timerState =
+                TimerState.Paused
             updateButtons()
         }
 
@@ -141,7 +146,12 @@ class MainActivity : AppCompatActivity() {
 
         if (timerState == TimerState.Running){
             timer.cancel()
-            val wakeUpTime = setAlarm(this, nowSeconds, secondsRemaining)
+            val wakeUpTime =
+                setAlarm(
+                    this,
+                    nowSeconds,
+                    secondsRemaining
+                )
             NotificationUtil.showTimerRunning(this, wakeUpTime)
         }
         else if (timerState == TimerState.Paused){

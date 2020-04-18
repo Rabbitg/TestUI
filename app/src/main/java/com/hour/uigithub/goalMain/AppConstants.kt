@@ -1,4 +1,4 @@
-package com.hour.uigithub
+package com.hour.uigithub.goalMain
 
 class AppConstants {
     companion object {

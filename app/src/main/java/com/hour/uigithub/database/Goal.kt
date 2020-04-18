@@ -1,4 +1,4 @@
-package com.hour.uigithub
+package com.hour.uigithub.database
 
 import com.google.firebase.database.Exclude
 

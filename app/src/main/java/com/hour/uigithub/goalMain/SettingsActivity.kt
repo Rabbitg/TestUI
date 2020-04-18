@@ -1,7 +1,8 @@
-package com.hour.uigithub
+package com.hour.uigithub.goalMain
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.hour.uigithub.R
 import kotlinx.android.synthetic.main.activity_settings.*
 
 class SettingsActivity : AppCompatActivity() {
