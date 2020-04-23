@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.storage.FirebaseStorage
 import com.hour.uigithub.R
+
 import com.hour.uigithub.util.toast
 import kotlinx.android.synthetic.main.fragment_profile.*
 import java.io.ByteArrayOutputStream
@@ -117,6 +118,10 @@ class ProfileFragment : Fragment() {
         }
         text_email.setOnClickListener {
             val action = ProfileFragmentDirections.actionUpdateEmail()
+            Navigation.findNavController(it).navigate(action)
+        }
+        text_password.setOnClickListener {
+            val action = ProfileFragmentDirections.actionUpdatePassword()
             Navigation.findNavController(it).navigate(action)
         }
 

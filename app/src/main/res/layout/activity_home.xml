@@ -20,10 +20,10 @@
             android:layout_height="wrap_content"/>
 
         <fragment
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" app:navGraph="@navigation/nav_graph" app:defaultNavHost="true"
-            android:id="@+id/fragment"/>
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" app:navGraph="@navigation/nav_graph" app:defaultNavHost="true"
+        android:id="@+id/fragment"/>
 
     </LinearLayout>
 

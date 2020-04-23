@@ -1,4 +1,4 @@
-package com.hour.uigithub
+package com.hour.uigithub.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,6 +10,7 @@ import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
+import com.hour.uigithub.R
 import com.hour.uigithub.util.toast
 import kotlinx.android.synthetic.main.fragment_verify_phone.*
 import java.util.concurrent.TimeUnit
@@ -102,7 +103,8 @@ class VerifyPhoneFragment : Fragment() {
             ?.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     context?.toast("Phone Added")
-                    val action = VerifyPhoneFragmentDirections.actionPhoneVerified()
+                    val action =
+                        VerifyPhoneFragmentDirections.actionPhoneVerified()
                     Navigation.findNavController(button_verify).navigate(action)
                 } else {
                     context?.toast(task.exception?.message!!)

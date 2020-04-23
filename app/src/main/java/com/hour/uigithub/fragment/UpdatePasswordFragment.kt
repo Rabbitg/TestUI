@@ -1,7 +1,6 @@
-package com.hour.uigithub
+package com.hour.uigithub.fragment
 
 import android.os.Bundle
-import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,13 +9,17 @@ import androidx.navigation.Navigation
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+
+import com.hour.uigithub.R
 import com.hour.uigithub.util.toast
 import kotlinx.android.synthetic.main.fragment_update_email.*
-
-/**
- * A simple [Fragment] subclass.
- */
-class UpdateEmailFragment : Fragment() {
+import kotlinx.android.synthetic.main.fragment_update_email.button_authenticate
+import kotlinx.android.synthetic.main.fragment_update_email.button_update
+import kotlinx.android.synthetic.main.fragment_update_email.edit_text_password
+import kotlinx.android.synthetic.main.fragment_update_email.layoutPassword
+import kotlinx.android.synthetic.main.fragment_update_email.progressbar
+import kotlinx.android.synthetic.main.fragment_update_password.*
+class UpdatePasswordFragment : Fragment() {
 
     private val currentUser = FirebaseAuth.getInstance().currentUser
 
@@ -25,15 +28,14 @@ class UpdateEmailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_update_email, container, false)
+        return inflater.inflate(R.layout.fragment_update_password, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         layoutPassword.visibility = View.VISIBLE
-        layoutUpdateEmail.visibility = View.GONE
-
+        layoutUpdatePassword.visibility = View.GONE
 
         button_authenticate.setOnClickListener {
 
@@ -55,7 +57,7 @@ class UpdateEmailFragment : Fragment() {
                         when {
                             task.isSuccessful -> {
                                 layoutPassword.visibility = View.GONE
-                                layoutUpdateEmail.visibility = View.VISIBLE
+                                layoutUpdatePassword.visibility = View.VISIBLE
                             }
                             task.exception is FirebaseAuthInvalidCredentialsException -> {
                                 edit_text_password.error = "Invalid Password"
@@ -68,34 +70,34 @@ class UpdateEmailFragment : Fragment() {
 
         }
 
-        button_update.setOnClickListener { view ->
-            val email = edit_text_email.text.toString().trim()
+        button_update.setOnClickListener {
 
-            if (email.isEmpty()) {
-                edit_text_email.error = "Email Required"
-                edit_text_email.requestFocus()
+            val password = edit_text_new_password.text.toString().trim()
+
+            if(password.isEmpty() || password.length < 6){
+                edit_text_new_password.error = "atleast 6 char password required"
+                edit_text_new_password.requestFocus()
                 return@setOnClickListener
             }
 
-            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                edit_text_email.error = "Valid Email Required"
-                edit_text_email.requestFocus()
+            if(password != edit_text_new_password_confirm.text.toString().trim()){
+                edit_text_new_password_confirm.error = "password did not match"
+                edit_text_new_password_confirm.requestFocus()
                 return@setOnClickListener
             }
 
-            progressbar.visibility = View.VISIBLE
-            currentUser?.let { user ->
-                user.updateEmail(email)
+            currentUser?.let{ user ->
+                progressbar.visibility = View.VISIBLE
+                user.updatePassword(password)
                     .addOnCompleteListener { task ->
-                        progressbar.visibility = View.GONE
                         if(task.isSuccessful){
-                            val action = UpdateEmailFragmentDirections.actionEmailUpdated()
-                            Navigation.findNavController(view).navigate(action)
+                            val action = UpdatePasswordFragmentDirections.actionPasswordUpdated()
+                            Navigation.findNavController(it).navigate(action)
+                            context?.toast("Password Updated")
                         }else{
                             context?.toast(task.exception?.message!!)
                         }
                     }
-
             }
         }
     }

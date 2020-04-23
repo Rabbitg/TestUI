@@ -19,10 +19,12 @@
             app:destination="@id/verifyPhoneFragment"/>
         <action android:id="@+id/actionUpdateEmail"
             app:destination="@id/updateEmailFragment"/>
+        <action android:id="@+id/actionUpdatePassword"
+            app:destination="@id/updatePasswordFragment"/>
     </fragment>
     <fragment
         android:id="@+id/verifyPhoneFragment"
-        android:name="com.hour.uigithub.VerifyPhoneFragment"
+        android:name="com.hour.uigithub.fragment.VerifyPhoneFragment"
         android:label="fragment_verify_phone"
         tools:layout="@layout/fragment_verify_phone" >
         <action
@@ -30,8 +32,26 @@
             app:destination="@id/profileFragment" />
     </fragment>
     <fragment android:id="@+id/updateEmailFragment"
-        android:name="com.hour.uigithub.UpdateEmailFragment"
+        android:name="com.hour.uigithub.fragment.UpdateEmailFragment"
         android:label="Update Email" tools:layout="@layout/fragment_update_email">
         <action android:id="@+id/actionEmailUpdated" app:destination="@id/profileFragment"/>
     </fragment>
+    <fragment
+        android:id="@+id/updatePasswordFragment"
+        android:name="com.hour.uigithub.fragment.UpdatePasswordFragment"
+        android:label="Update Password"
+        tools:layout="@layout/fragment_update_password" >
+        <action android:id="@+id/actionPasswordUpdated"
+            app:destination="@id/profileFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="com.hour.uigithub.fragment.ListFragment"
+        android:label="fragment_list"
+        tools:layout="@layout/fragment_list" />
+    <activity
+        android:id="@+id/timerActivity"
+        android:name="com.hour.uigithub.goalMain.TimerActivity"
+        android:label="activity_timer"
+        tools:layout="@layout/activity_timer" />
 </navigation>
