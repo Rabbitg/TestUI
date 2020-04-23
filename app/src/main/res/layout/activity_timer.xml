@@ -72,17 +72,19 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.2" />
 
-    <include layout="@layout/content_timer" />
+    <include
+        android:id="@+id/include"
+        layout="@layout/content_timer" />
 
 
-    <ImageView
+    <TextView
         android:id="@+id/imageView_add_click"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/title_mainTextView"
+        android:text="여기를 눌러 목표를 추가해주세요."
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_input_add" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
