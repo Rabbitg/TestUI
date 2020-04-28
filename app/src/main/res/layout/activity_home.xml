@@ -28,13 +28,6 @@
 
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvNoteList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="16dp"
-        android:scrollbars="vertical" />
-
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         app:headerLayout="@layout/nav_header"

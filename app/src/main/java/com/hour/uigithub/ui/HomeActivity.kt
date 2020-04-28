@@ -28,37 +28,13 @@ class HomeActivity : AppCompatActivity(),View.OnClickListener {
 
     private val TAG = "HomeActivity"
 
-    private var mAdapter: NoteRecyclerViewAdapter? = null
-
-    private var firestoreDB: FirebaseFirestore? = null
-    private var firestoreListener: ListenerRegistration? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         setSupportActionBar(toolbar)
 
-        firestoreDB = FirebaseFirestore.getInstance()
 
-        loadNotesList()
-        firestoreListener = firestoreDB!!.collection("notes")
-            .addSnapshotListener(EventListener { documentSnapshots, e ->
-                if (e != null) {
-                    Log.e(TAG, "Listen failed!", e)
-                    return@EventListener
-                }
-
-                val notesList = mutableListOf<Note>()
-
-                for (doc in documentSnapshots!!) {
-                    val note = doc.toObject(Note::class.java)
-                    note.id = doc.id
-                    notesList.add(note)
-                }
-
-                mAdapter = NoteRecyclerViewAdapter(notesList, applicationContext, firestoreDB!!)
-                rvNoteList.adapter = mAdapter
-            })
         val navController = Navigation.findNavController(this,
             R.id.fragment
         )
@@ -67,35 +43,6 @@ class HomeActivity : AppCompatActivity(),View.OnClickListener {
             this,
             navController, drawer_layout
         )
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        firestoreListener!!.remove()
-    }
-
-    private fun loadNotesList() {
-        firestoreDB!!.collection("notes")
-            .get()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val notesList = mutableListOf<Note>()
-
-                    for (doc in task.result!!) {
-                        val note = doc.toObject<Note>(Note::class.java)
-                        note.id = doc.id
-                        notesList.add(note)
-                    }
-
-                    mAdapter = NoteRecyclerViewAdapter(notesList, applicationContext, firestoreDB!!)
-                    val mLayoutManager = LinearLayoutManager(applicationContext)
-                    rvNoteList.layoutManager = mLayoutManager
-                    rvNoteList.itemAnimator = DefaultItemAnimator()
-                    rvNoteList.adapter = mAdapter
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.exception)
-                }
-            }
     }
 
     override fun onSupportNavigateUp(): Boolean {

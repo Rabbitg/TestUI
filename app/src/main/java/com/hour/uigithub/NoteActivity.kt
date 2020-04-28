@@ -48,7 +48,7 @@ class NoteActivity : AppCompatActivity() {
     private fun updateNote(id: String, title: String, content: String) {
         val note = Note(id, title, content).toMap()
 
-        firestoreDB!!.collection("notes")
+        firestoreDB!!.collection("add_notes")
             .document(id)
             .set(note)
             .addOnSuccessListener {
@@ -64,7 +64,7 @@ class NoteActivity : AppCompatActivity() {
     private fun addNote(title: String, content: String) {
         val note = Note(title, content).toMap()
 
-        firestoreDB!!.collection("notes")
+        firestoreDB!!.collection("add_notes")
             .add(note)
             .addOnSuccessListener { documentReference ->
                 Log.e(TAG, "DocumentSnapshot written with ID: " + documentReference.id)
