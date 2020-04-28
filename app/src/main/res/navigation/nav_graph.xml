@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.hour.uigithub.fragment.HomeFragment"
-        android:label="fragment_home"
+        android:label="오늘 할 일 "
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/profileFragment"

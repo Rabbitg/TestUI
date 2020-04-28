@@ -5,12 +5,12 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.hour.uigithub.database.Note
+import io.grpc.InternalChannelz.id
+import kotlin.reflect.jvm.internal.impl.util.Check
 
 class NoteRecyclerViewAdapter (
     private val notesList: MutableList<Note>,
@@ -21,7 +21,7 @@ class NoteRecyclerViewAdapter (
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent!!.context).inflate(R.layout.item_note, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_note, parent, false)
 
         return ViewHolder(view)
     }
@@ -32,12 +32,17 @@ class NoteRecyclerViewAdapter (
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val note = notesList[position]
-        holder!!.title.text = note.title
+        holder.title.text = note.title
         holder.content.text=note.content
 
         holder.edit.setOnClickListener { updateNote(note) }
         holder.delete.setOnClickListener { deleteNote(note.id!!, position) }
+        holder.check.setOnCheckedChangeListener {_, isChecked->
+            if(isChecked){
+                deleteNote(note.id!!, position)
+            }
 
+        }
     }
 
     inner class ViewHolder internal constructor(view:View) : RecyclerView.ViewHolder(view){
@@ -45,12 +50,13 @@ class NoteRecyclerViewAdapter (
         internal var content: TextView
         internal var edit: ImageView
         internal var delete: ImageView
+        internal var check: CheckBox
         init {
             title = view.findViewById(R.id.tvTitle)
             content = view.findViewById(R.id.tvContent)
-
             edit = view.findViewById(R.id.ivEdit)
             delete = view.findViewById(R.id.ivDelete)
+            check = view.findViewById(R.id.chk_box)
         }
     }
 
@@ -64,7 +70,7 @@ class NoteRecyclerViewAdapter (
     }
 
     private fun deleteNote(id:String,position: Int){
-        firestoreDB.collection("notes")
+        firestoreDB.collection("add_notes")
             .document(id)
             .delete()
             .addOnCompleteListener{

@@ -40,7 +40,6 @@ class NoteActivity : AppCompatActivity() {
                     addNote(title, content)
                 }
             }
-
             finish()
         }
     }

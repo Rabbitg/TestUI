@@ -2,7 +2,6 @@ package com.hour.uigithub.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,7 +16,6 @@ import com.hour.uigithub.NoteRecyclerViewAdapter
 import com.hour.uigithub.R
 import com.hour.uigithub.database.Note
 import com.hour.uigithub.goalMain.TimerActivity
-import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
@@ -65,7 +63,7 @@ class HomeFragment : Fragment() {
                     notesList.add(note)
                 }
                 mAdapter = NoteRecyclerViewAdapter(notesList,requireContext(),firestoreDB!!)
-                rvNoteList2.adapter = mAdapter
+                rvNoteList1.adapter = mAdapter
             })
 
     }
@@ -88,11 +86,11 @@ class HomeFragment : Fragment() {
                     }
                     mAdapter = NoteRecyclerViewAdapter(noteList,requireContext(),firestoreDB!!)
                     val mLayoutManager = LinearLayoutManager(requireContext())
-                    rvNoteList2.layoutManager = mLayoutManager
+                    rvNoteList1.layoutManager = mLayoutManager
                     //item들의 추가/삭제/이동 이벤트에 대한
                     // 기본적인 animation을 제공하는 클래스이다.
-                    rvNoteList2.itemAnimator = DefaultItemAnimator()
-                    rvNoteList2.adapter = mAdapter
+                    rvNoteList1.itemAnimator = DefaultItemAnimator()
+                    rvNoteList1.adapter = mAdapter
                 } else{
                     Log.d(TAG, "Error getting documents: ",task.exception)
                 }
