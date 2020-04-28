@@ -78,7 +78,7 @@
 
 
     <TextView
-        android:id="@+id/imageView_add_click"
+        android:id="@+id/textView_add_click"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="여기를 눌러 목표를 추가해주세요."

@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -98,23 +99,24 @@ class TimerActivity : AppCompatActivity(){
 
 
         // 추가 버튼 클릭했을 때 다이얼로그 보여주는 것
-        imageView_add_click.setOnClickListener {
-            addItemDialog()
-        }
+        textView_add_click.setOnClickListener {
+                            addItemDialog()
 
-        val goalRef = database.getReference("/Goal")
-        goalRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        }
 
-                dataSnapshot.children.forEach {
-                    //"it" is the snapshot
-                    val key: String = it.key.toString()
-                    val title : Any? = dataSnapshot.child(key).child("title").value.toString()
-                    title_mainTextView.text = title.toString()
+                        val goalRef = database.getReference("/Goal")
+                        goalRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
 
-                    val description : Any? = dataSnapshot.child(key).child("description").value.toString()
-                    description_mainTextView.text = description.toString()
-                }
+                                dataSnapshot.children.forEach {
+                                    //"it" is the snapshot
+                                    val key: String = it.key.toString()
+                                    val title : Any? = dataSnapshot.child(key).child("title").value.toString()
+                                    title_mainTextView.text = title.toString()
+
+                                    val description : Any? = dataSnapshot.child(key).child("description").value.toString()
+                                    description_mainTextView.text = description.toString()
+                                }
 
                 // val value = dataSnapshot.child("title").value
 
@@ -299,7 +301,7 @@ class TimerActivity : AppCompatActivity(){
                 goal.description = description_mainTextView.text.toString()
                 goal.writeTime = ServerValue.TIMESTAMP
                 newRef.setValue(goal)
-
+                textView_add_click.visibility = View.GONE
                 // 다이얼로그 사라지게 하는 것
                 mAlertDialog.dismiss()
             }
