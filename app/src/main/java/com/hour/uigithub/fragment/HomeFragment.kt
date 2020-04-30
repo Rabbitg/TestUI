@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
+import com.hour.uigithub.DetailActivity
 import com.hour.uigithub.NoteRecyclerViewAdapter
 import com.hour.uigithub.R
 import com.hour.uigithub.database.Note
@@ -27,6 +28,10 @@ class HomeFragment : Fragment() {
 
     private var firestoreDB : FirebaseFirestore?= null
     private var firestoreListener: ListenerRegistration? = null
+
+    companion object{
+        val INTENT_PARCELABLE = "OBJECT_INTENT"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,6 +69,8 @@ class HomeFragment : Fragment() {
                 }
                 mAdapter = NoteRecyclerViewAdapter(notesList,requireContext(),firestoreDB!!)
                 rvNoteList1.adapter = mAdapter
+
+
             })
 
     }

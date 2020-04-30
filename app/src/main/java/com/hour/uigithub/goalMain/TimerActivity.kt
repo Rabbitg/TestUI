@@ -1,28 +1,30 @@
 package com.hour.uigithub.goalMain
 
 import android.app.AlarmManager
+import android.app.AlertDialog
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
+import android.view.ContextThemeWrapper
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
+import com.hour.uigithub.Category
 import com.hour.uigithub.NoteRecyclerViewAdapter
 import com.hour.uigithub.R
 import com.hour.uigithub.database.Note
 import com.hour.uigithub.util.NotificationUtil
 import com.hour.uigithub.util.PrefUtil
+import kotlinx.android.synthetic.main.activity_note.*
 import kotlinx.android.synthetic.main.activity_timer.*
-import kotlinx.android.synthetic.main.activity_timer.rvNoteList2
 import kotlinx.android.synthetic.main.content_timer.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.util.*
@@ -34,9 +36,14 @@ class TimerActivity : AppCompatActivity(){
 
     private var firestoreDB : FirebaseFirestore?= null
     private var firestoreListener: ListenerRegistration? = null
+    private var notesList: MutableList<Note>? = null
+
+    var IntentId: String = ""
+    var IntentTitle: String = ""
+    var IntentContent: String = ""
 
     companion object{
-        val TAG = "MainActivity"
+        val TAG = "TimerActivity"
         fun setAlarm(context: Context, nowSeconds: Long, secondsRemaining: Long): Long{
             val wakeUpTime = (nowSeconds + secondsRemaining) * 1000
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -69,12 +76,43 @@ class TimerActivity : AppCompatActivity(){
     private var timerState =
         TimerState.Stopped
     private var secondsRemaining : Long = 0L
+    internal var id: String = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timer)
         supportActionBar?.setIcon(R.drawable.ic_timer)
         supportActionBar?.title = "      Timer"
+
+
+
+        // getIntent
+        if(intent.hasExtra("title"))
+        {
+            IntentId = intent.getStringExtra("id")
+            println("IntentId : " + IntentId)
+        }
+        if(intent.hasExtra("id"))
+        {
+            IntentTitle = intent.getStringExtra("title")
+            println("IntentTitle : " + IntentTitle)
+        }
+        if(intent.hasExtra("content"))
+        {
+            IntentContent = intent.getStringExtra("content")
+            println("IntentContent : " + IntentContent)
+        }
+
+//        notesList = arrayListOf<Note>(
+//            Note(IntentId, IntentTitle, IntentContent)
+//        )
+        tvTitle.text = IntentTitle
+        tvContent.text = IntentContent
+        //TODO: 체크박스 체크 시 IntentId를 활용해야 한다...
+
+        firestoreDB = FirebaseFirestore.getInstance()
+
         // 카운트다운
         fab_start.setOnClickListener { v ->
             startTimer()
@@ -91,30 +129,24 @@ class TimerActivity : AppCompatActivity(){
         }
 
         fab_stop.setOnClickListener {
-            timer.cancel()
-            onTimerFinished()
+
+                val builder = AlertDialog.Builder(ContextThemeWrapper(this@TimerActivity,R.style.ThemeOverlay_AppCompat_Dialog))
+                builder.setMessage("종료하시겠습니까?")
+                builder.setPositiveButton("정지"){
+                    _, _ ->
+                    timer.cancel()
+                    onTimerFinished()
+                }
+                builder.setNegativeButton("취소"){
+                    _,_ ->
+                    finish()
+                }
+                builder.show()
+
+
         }
-        firestoreDB = FirebaseFirestore.getInstance()
 
 
-        loadNotesList()
-
-        firestoreListener = firestoreDB!!.collection("add_notes")
-            .addSnapshotListener(EventListener{documentSnapshots, e ->
-                if (e != null) {
-                    Log.e(TAG, "Listen failed!", e)
-                    return@EventListener
-                }
-                val notesList = mutableListOf<Note>()
-
-                for (doc in documentSnapshots!!) {
-                    val note = doc.toObject(Note::class.java)
-                    note.id = doc.id
-                    notesList.add(note)
-                }
-                mAdapter = NoteRecyclerViewAdapter(notesList, applicationContext, firestoreDB!!)
-                rvNoteList2.adapter = mAdapter
-            })
     }
 
     override fun onResume() {
@@ -248,6 +280,7 @@ class TimerActivity : AppCompatActivity(){
 
 
 
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_timer, menu)
@@ -268,28 +301,5 @@ class TimerActivity : AppCompatActivity(){
         }
     }
 
-    private fun loadNotesList(){
-        firestoreDB!!.collection("add_notes")
-            .get()
-            .addOnCompleteListener{task ->
-                if(task.isSuccessful){
-                    val noteList = mutableListOf<Note>()
-                    for (doc in task.result!!){
-                        val note = doc.toObject(Note::class.java)
-                        note.id = doc.id
-                        noteList.add(note)
-                    }
-                    mAdapter = NoteRecyclerViewAdapter(noteList,applicationContext, firestoreDB!!)
-                    val mLayoutManager = LinearLayoutManager(applicationContext)
-                    rvNoteList2.layoutManager = mLayoutManager
-                    //item들의 추가/삭제/이동 이벤트에 대한
-                    // 기본적인 animation을 제공하는 클래스이다.
-                    rvNoteList2.itemAnimator = DefaultItemAnimator()
-                    rvNoteList2.adapter = mAdapter
-                } else{
-                    Log.d(TAG, "Error getting documents: ",task.exception)
-                }
-            }
-    }
 
 }
