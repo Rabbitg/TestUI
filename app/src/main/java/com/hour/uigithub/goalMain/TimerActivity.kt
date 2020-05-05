@@ -85,7 +85,7 @@ class TimerActivity : AppCompatActivity(){
         supportActionBar?.setIcon(R.drawable.ic_timer)
         supportActionBar?.title = "      Timer"
 
-
+        firestoreDB = FirebaseFirestore.getInstance()
 
         // getIntent
         if(intent.hasExtra("title"))
@@ -104,14 +104,9 @@ class TimerActivity : AppCompatActivity(){
             println("IntentContent : " + IntentContent)
         }
 
-//        notesList = arrayListOf<Note>(
-//            Note(IntentId, IntentTitle, IntentContent)
-//        )
         tvTitle.text = IntentTitle
         tvContent.text = IntentContent
-        //TODO: 체크박스 체크 시 IntentId를 활용해야 한다...
 
-        firestoreDB = FirebaseFirestore.getInstance()
 
         // 카운트다운
         fab_start.setOnClickListener { v ->
@@ -148,6 +143,7 @@ class TimerActivity : AppCompatActivity(){
 
 
     }
+
 
     override fun onResume() {
         super.onResume()

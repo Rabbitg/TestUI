@@ -25,9 +25,7 @@ class NoteRecyclerViewAdapter(
 
     companion object{
         val TAG = "RecyclerView"
-        val EXTRA_NOTE = "EXTRA_NOTE"
     }
-    var onItemClick: ((Note) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_note, parent, false)
@@ -41,7 +39,6 @@ class NoteRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val note = notesList[position]
-        val objet = Note()
         holder.title.text = note.title
         holder.content.text=note.content
         holder.edit.setOnClickListener { updateNote(note) }
@@ -71,8 +68,6 @@ class NoteRecyclerViewAdapter(
         internal var edit: ImageView = view.findViewById(R.id.ivEdit)
         internal var delete: ImageView = view.findViewById(R.id.ivDelete)
         internal var check: CheckBox = view.findViewById(R.id.chk_box)
-
-
 
     }
 

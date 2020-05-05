@@ -1,5 +1,6 @@
 package com.hour.uigithub
 
+import android.content.Intent
 import android.media.Image
 import android.os.Bundle
 import android.widget.ImageView
@@ -8,6 +9,7 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import com.hour.uigithub.fragment.ListFragment
 import kotlinx.android.synthetic.main.activity_detail.*
+import kotlinx.android.synthetic.main.main_rv_item.*
 
 class DetailActivity : AppCompatActivity() {
 
@@ -22,5 +24,10 @@ class DetailActivity : AppCompatActivity() {
 
         imgSrc.setImageResource(image.photo)
         imgTitle.text = image.title
+
+        exercise_btn.setOnClickListener {
+            val intent = Intent(applicationContext, MainActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

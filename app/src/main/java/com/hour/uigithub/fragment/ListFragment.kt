@@ -24,8 +24,6 @@ class ListFragment : Fragment() {
         Category(R.drawable.workout, "운동"),
         Category(R.drawable.study, "공부"),
         Category(R.drawable.music, "음악" )
-
-
     )
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,11 +36,6 @@ class ListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val mAdapter = MainRvAdapter(this.requireContext(), categoryList) {
-                dog ->
-
-        }
-        recycler_view.adapter = mAdapter
 
         val lm = GridLayoutManager(this.requireContext(),1)
         //LayoutManager는 RecyclerView의 각 item들을 배치하고,
